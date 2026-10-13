@@ -11,7 +11,8 @@ Unitree G1 29DOF 的分层导航强化学习：`LiDAR CNN → 空间 Transformer
 | 用途 | 环境与说明 |
 |---|---|
 | 训练、Isaac 回放 | Linux / NVIDIA GPU / Python 3.11 / Isaac Sim 5.1 / Isaac Lab v2.3.0；[安装步骤](training/README.md) |
-| MuJoCo、ONNX 部署 | Ubuntu 22.04 / Python 3.10；[依赖与启动](deploy/transformer_sru_real/README.md) |
+| MuJoCo 避障演示（PT） | Linux / Python 3.11 / CPU；[安装与启动](deploy/sim2sim/README.md) |
+| ONNX 部署与接口检查 | Ubuntu 22.04 / Python 3.10；[依赖与启动](deploy/transformer_sru_real/README.md) |
 | 实机传感器输入 | ROS 2 Humble / Unitree ROS 2 / Livox 点云和里程计；[适配器构建](ros/src/transformer_sru_lidar_adapter/README.md) |
 
 克隆本仓库到纯英文路径，进入仓库根目录后执行以下命令。训练与 ROS 部署使用不同 Python 环境。
@@ -35,14 +36,25 @@ python training/scripts/nav/play.py --num_envs 1 --checkpoint checkpoints/model_
 日志与新权重位于 `logs/rsl_rl/g1_29dof_unitree_transformer_sru_ppo/`。
 恢复训练、版本依据及显存说明见 [训练文档](training/README.md)。
 
-## 部署发布模型
+## MuJoCo 避障演示（sim2sim）
 
-完成[部署依赖安装](deploy/transformer_sru_real/README.md)后，先运行本地 MuJoCo：
+使用原来的 **20 个障碍物＋两侧墙体**场景，直接加载 `model_24999.pt`。
+本次复测约 **21.91 秒到达**，未触发碰撞或跌倒判定。[查看演示录像](deploy/sim2sim/demo.mp4)
+
+![24999 在原障碍物场景到达目标](deploy/sim2sim/preview.png)
+
+完成[演示依赖安装](deploy/sim2sim/README.md)并激活对应环境后：
 
 ```bash
-bash deploy/transformer_sru_real/mujoco_navigation.sh --check --seconds 15
-bash deploy/transformer_sru_real/mujoco_navigation.sh
+bash deploy/sim2sim/run.sh
+# 无窗口评估
+bash deploy/sim2sim/run.sh --headless --start-delay 0 --hold 0
 ```
+
+倒计时后自动导航，绿色圆盘为目标，Esc 退出。图形模式自动保存录像与轨迹。
+该固定场景使用理想雷达，不代表总体成功率或实机表现；细节见[演示说明](deploy/sim2sim/README.md)。
+
+## 部署发布模型
 
 实机使用附带的 `model_24999.onnx`，无需重新导出。按[部署文档](deploy/transformer_sru_real/README.md)完成
 传感器、网卡、外参和里程计配置，再进行只读检查及分阶段控制。仓库不提供 Livox 驱动或 SLAM；

@@ -4,7 +4,10 @@
 
 以下命令均从仓库根目录执行。支持 Ubuntu 22.04 / Python 3.10；独立部署不需要安装 Isaac Lab。
 
-## 本地 MuJoCo
+## 本地 MuJoCo 接口检查
+
+展示避障能力请运行[20 障碍物＋两侧墙体的 PT 演示](../sim2sim/README.md)。
+以下空场景用于检查 ONNX 部署接口，使用不同的启动按键。
 
 ```bash
 sudo apt-get install python3-venv build-essential cmake libeigen3-dev libglfw3
