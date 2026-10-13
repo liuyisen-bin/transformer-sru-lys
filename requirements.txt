@@ -1,0 +1,4 @@
+# Shared Python 3.11 environment for Isaac training and MuJoCo sim2sim.
+# Install Isaac Sim / Lab and CUDA PyTorch first; see training/README.md.
+-r training/requirements.txt
+-r deploy/sim2sim/requirements.txt

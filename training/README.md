@@ -3,7 +3,7 @@
 运行目录均为仓库根目录。任务为 `Isaac-Navigation-PPO-G1-29DOF-v0`：
 CNN + 两层空间 Transformer + SRU，PPO 训练高层导航；冻结的 Unitree 低层策略随仓库提供。
 
-## 依赖
+## 训练与 sim2sim 共用环境
 
 Linux x86_64、NVIDIA GPU，Python **3.11**、Isaac Sim **5.1.0**、Isaac Lab **v2.3.0**、
 PyTorch **2.7.0 + CUDA 12.8**、torchvision **0.22.0**、NumPy **1.26.0**。
@@ -27,11 +27,15 @@ cd ../..
 然后进入本仓库根目录，在同一环境中安装：
 
 ```bash
-python -m pip install -r training/requirements.txt
+python -m pip install -r requirements.txt
 python -m pip install -e training/sru-navigation-learning -e training/source/engineai_rl_lab
 python -m pip check
 python -c "import rsl_rl; print(rsl_rl.__file__)"
 ```
+
+根目录 `requirements.txt` 同时安装训练和 MuJoCo 演示依赖；两者共用 `transformer_sru`，
+无需另建 Python 环境或改装 CPU 版 PyTorch。已有本仓库训练环境只需补装
+`python -m pip install -r deploy/sim2sim/requirements.txt`，再按[场景安装与启动](../deploy/sim2sim/README.md)运行。
 
 最后一行应指向本仓库 `training/sru-navigation-learning/rsl_rl`。
 本项目需要随仓库提供的 SRU 版 `rsl_rl`；Isaac Lab 安装时使用 `--install none`，避免额外安装

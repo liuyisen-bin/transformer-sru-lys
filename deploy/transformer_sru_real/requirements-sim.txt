@@ -1,3 +1,4 @@
--r requirements.txt
-mujoco==3.13.0
-glfw==2.10.2
+# Offline ONNX simulation uses the same Python 3.11 constraints as training.
+# ROS 2 hardware deployment retains its separate requirements.txt.
+-r ../sim2sim/requirements.txt
+onnxruntime

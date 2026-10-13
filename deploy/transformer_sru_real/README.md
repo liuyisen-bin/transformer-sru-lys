@@ -2,22 +2,23 @@
 
 部署使用 `checkpoints/model_24999.onnx`，由仓库中的 `model_24999.pt` 导出。训练从 0 计数，24999 对应第 25000 轮；仓库未提供名为 `25000.pt` 的另一份模型。低层使用训练配套的 Unitree G1 `velocity/v0` ONNX。`contract.json` 固定模型哈希、观测布局和关节顺序；发布权重无需重新导出，导出说明见 [工具文档](../../tools/readonly_24999/README.md)。
 
-以下命令均从仓库根目录执行。支持 Ubuntu 22.04 / Python 3.10；独立部署不需要安装 Isaac Lab。
+以下命令均从仓库根目录执行。MuJoCo 接口检查与训练共用 Python 3.11；
+ROS 2 Humble 真机部署使用 Python 3.10，独立部署不需要安装 Isaac Lab。
 
 ## 本地 MuJoCo 接口检查
 
 展示避障能力请运行[20 障碍物＋两侧墙体的 PT 演示](../sim2sim/README.md)。
-以下空场景用于检查 ONNX 部署接口，使用不同的启动按键。
+以下空场景用于检查 ONNX 部署接口，使用不同的启动按键。先完成[统一训练环境安装](../../training/README.md)。
 
 ```bash
-sudo apt-get install python3-venv build-essential cmake libeigen3-dev libglfw3
-python3.10 -m venv .venv-deploy
-source .venv-deploy/bin/activate
+sudo apt-get install build-essential cmake libeigen3-dev libglfw3
+conda activate transformer_sru
 python -m pip install -r deploy/transformer_sru_real/requirements-sim.txt
 cmake -S ros/src/transformer_sru_lidar_adapter -B ros/build_standalone -DSRU_STANDALONE=ON
 cmake --build ros/build_standalone -j
 ctest --test-dir ros/build_standalone --output-on-failure
 mkdir -p third_party
+# 若已为避障演示下载该目录，跳过 clone。
 git clone https://github.com/unitreerobotics/unitree_mujoco.git third_party/unitree_mujoco
 git -C third_party/unitree_mujoco checkout 1eb6642e3f3fdfb7fb13a9794fd6a2dd93ea0e7d
 bash deploy/transformer_sru_real/mujoco_navigation.sh --check --seconds 15

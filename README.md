@@ -11,11 +11,12 @@ Unitree G1 29DOF 的分层导航强化学习：`LiDAR CNN → 空间 Transformer
 | 用途 | 环境与说明 |
 |---|---|
 | 训练、Isaac 回放 | Linux / NVIDIA GPU / Python 3.11 / Isaac Sim 5.1 / Isaac Lab v2.3.0；[安装步骤](training/README.md) |
-| MuJoCo 避障演示（PT） | Linux / Python 3.11 / CPU；[安装与启动](deploy/sim2sim/README.md) |
-| ONNX 部署与接口检查 | Ubuntu 22.04 / Python 3.10；[依赖与启动](deploy/transformer_sru_real/README.md) |
+| MuJoCo 仿真（PT / ONNX） | 与训练共用 `transformer_sru` / Python 3.11；[场景安装与启动](deploy/sim2sim/README.md) |
+| ROS 2 真机部署 | Ubuntu 22.04 / Python 3.10；[依赖与启动](deploy/transformer_sru_real/README.md) |
 | 实机传感器输入 | ROS 2 Humble / Unitree ROS 2 / Livox 点云和里程计；[适配器构建](ros/src/transformer_sru_lidar_adapter/README.md) |
 
-克隆本仓库到纯英文路径，进入仓库根目录后执行以下命令。训练与 ROS 部署使用不同 Python 环境。
+克隆本仓库到纯英文路径，进入仓库根目录后执行以下命令。**训练与 sim2sim 只需一个 Python 3.11 环境**，统一安装入口见[训练文档](training/README.md)。
+仅 ROS 2 Humble 真机部署使用独立的 Python 3.10 环境。
 本仓库包含训练源码、G1 URDF/mesh、冻结低层策略和高度编码器；Isaac Lab、MuJoCo 场景及 ROS 依赖按上面文档安装。
 
 ## 训练与回放
@@ -43,9 +44,10 @@ python training/scripts/nav/play.py --num_envs 1 --checkpoint checkpoints/model_
 
 ![24999 在原障碍物场景到达目标](deploy/sim2sim/preview.png)
 
-完成[演示依赖安装](deploy/sim2sim/README.md)并激活对应环境后：
+完成[训练环境和演示场景安装](deploy/sim2sim/README.md)后：
 
 ```bash
+conda activate transformer_sru
 bash deploy/sim2sim/run.sh
 # 无窗口评估
 bash deploy/sim2sim/run.sh --headless --start-delay 0 --hold 0
