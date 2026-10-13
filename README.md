@@ -44,10 +44,10 @@ python training/scripts/nav/play.py --num_envs 1 --checkpoint checkpoints/model_
 
 ![24999 在原障碍物场景到达目标](deploy/sim2sim/preview.png)
 
-完成[训练环境和演示场景安装](deploy/sim2sim/README.md)后：
+完成[仿真依赖和场景安装](deploy/sim2sim/README.md)后（可复用训练环境，也可仅安装 CPU 演示依赖）：
 
 ```bash
-conda activate transformer_sru
+conda activate transformer_sru  # 仅 CPU 演示环境则使用 transformer_sru_sim
 bash deploy/sim2sim/run.sh
 # 无窗口评估
 bash deploy/sim2sim/run.sh --headless --start-delay 0 --hold 0

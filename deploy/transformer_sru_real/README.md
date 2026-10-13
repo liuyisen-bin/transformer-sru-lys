@@ -29,6 +29,12 @@ bash deploy/transformer_sru_real/mujoco_navigation.sh
 
 默认读取项目内的 Unitree 场景和独立投影库；已有安装可用 `--xml /absolute/path/scene_29dof.xml`（或 `SRU_MUJOCO_XML`）及 `SRU_LIDAR_LIBRARY` 指定。MuJoCo 使用理想 16×41 雷达、500 Hz 物理、50 Hz 低层、5 Hz 导航；它不连接 ROS/DDS。仿真运行成功只说明该场景和接口可运行，不证明实机传感器对齐或导航泛化。
 
+## 切换新训练的 ONNX 模型
+
+导出新模型后，按[导出与选择部署模型](../../tools/readonly_24999/README.md)校验并更新
+`contract.json` 的高层模型路径和 SHA256。导出本身不会自动切换部署模型；
+不要直接覆盖原文件或关闭哈希检查。更新后重新启动仿真/部署进程，低层策略和控制参数不变。
+
 ## ROS 2 与真机
 
 先安装 [ROS 2 Humble](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html) 和 [unitree_ros2](https://github.com/unitreerobotics/unitree_ros2)（需要 `unitree_hg`、`unitree_api`、Cyclone DDS），按 [LiDAR 适配器文档](../../ros/src/transformer_sru_lidar_adapter/README.md) 构建本项目 ROS 包。真机 Python 必须与 ROS Humble 的 Python 3.10 ABI 一致：

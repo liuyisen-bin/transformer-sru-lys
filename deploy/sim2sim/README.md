@@ -12,17 +12,31 @@ ROS、机器人连接或 CUDA。没有额外规划器或中间路点。
 
 ## 安装
 
-训练、Isaac 回放和本演示共用 **`transformer_sru` / Python 3.11**。先完成
-[训练环境安装](../../training/README.md)，其中根目录 `requirements.txt` 已包含 MuJoCo 依赖。
-共同依赖的版本统一由 `training/requirements.txt` 约束：PyTorch 2.7.0+cu128、
-NumPy 1.26.0、ONNX 1.18.0；演示仍在 CPU 上推理，无需更换 PyTorch。
+按用途选择下面一种方式，**不需要同时创建两个环境**。共同依赖沿用训练的版本约束：
+Python 3.11、PyTorch 2.7.0、NumPy 1.26.0、ONNX 1.18.0。
+以下命令均从仓库根目录执行。
 
-从仓库根目录执行；已按新版训练文档安装的环境可跳过 pip 补装：
+**已有训练环境：** 复用 `transformer_sru`，保留已有 CUDA 版 PyTorch，只补装仿真依赖。
+按新版[训练文档](../../training/README.md)安装过根目录 `requirements.txt` 的用户可跳过补装。
 
 ```bash
 conda activate transformer_sru
 python -m pip install -r deploy/sim2sim/requirements.txt
+```
 
+**只运行 CPU 避障演示：** 无需 NVIDIA GPU、CUDA 或 Isaac Lab，也不用安装训练包。
+
+```bash
+conda create -n transformer_sru_sim python=3.11 -y
+conda activate transformer_sru_sim
+python -m pip install torch==2.7.0 --index-url https://download.pytorch.org/whl/cpu
+python -m pip install -r deploy/sim2sim/requirements.txt
+python -m pip check
+```
+
+**两种方式均需下载场景资源：**
+
+```bash
 # 仅首次安装场景时执行；已有该目录则跳过 clone。
 mkdir -p third_party
 git clone https://github.com/unitreerobotics/unitree_mujoco.git third_party/unitree_mujoco
@@ -60,14 +74,17 @@ bash deploy/sim2sim/run.sh --headless --start-delay 0 --hold 0
 手动关闭窗口返回 0，但结果会标记为 `user_closed` 或 `closed_before_start`。
 结束时是冻结仿真，不代表验证了自主停车。这是固定场景和理想射线雷达演示，不代表总体成功率或实机表现。
 
-2026-10-13 复测：图形模式与无窗口模式均在约 **21.91 秒**到达，结束距离 **0.227 米**，
-未触发碰撞或跌倒判定。实际环境为 Python 3.11.16、PyTorch 2.7.0+cu128（CPU 推理）、
-NumPy 1.26.0、MuJoCo 3.13.0、ONNX 1.22.0。
+2026-10-13 验证：复用训练环境与全新纯 CPU 环境均约 **21.91 秒到达**，结束距离
+**0.227 米**，未触发碰撞或跌倒。纯 CPU 环境使用 Python 3.11.16、PyTorch 2.7.0+cpu、
+NumPy 1.26.0、ONNX 1.18.0、MuJoCo 3.13.0，未安装 Isaac Lab/CUDA，`pip check` 通过。
+训练环境使用 PyTorch 2.7.0+cu128 做 CPU 推理。此次未重新运行 Isaac Lab 训练。
 
-统一依赖复测：保持上述 Python / PyTorch / NumPy / MuJoCo，改用训练要求的
-ONNX 1.18.0、ONNX Runtime 1.23.2，无窗口避障结果与原轨迹逐字节一致；
-ONNX 仿真 15 秒接口检查通过，数值契约与 MuJoCo 回归共 9 项通过、3 项因缺少可选依赖跳过。
-依赖解析通过；为保留本机环境，新增/调整的验证包放在项目内，仅对验证进程生效。
-完整的新环境安装与 Isaac 训练未重新验证。
+更换同网络结构、同观测与动作配置的 PT 权重：
 
-其他检查点或场景可使用 `--checkpoint`、`--scene-json`；官方 XML 可用 `--xml` 指定。
+```bash
+bash deploy/sim2sim/run.sh --checkpoint /absolute/path/model_29999.pt
+```
+
+场景可通过 `--scene-json` 更换；官方 XML 可用 `--xml` 指定。
+本 PT 演示不读取部署 `contract.json`，不会切换 ONNX 或真机使用的模型。
+ONNX 模型切换见[导出与选择部署模型](../../tools/readonly_24999/README.md)。
