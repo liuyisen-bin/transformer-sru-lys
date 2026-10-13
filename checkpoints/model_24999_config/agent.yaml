@@ -1,0 +1,72 @@
+seed: 60
+device: cuda:0
+num_steps_per_env: 16
+max_iterations: 25000
+empirical_normalization: false
+policy:
+  class_name: ActorCriticSRURangeImage
+  init_noise_std: 1.0
+  actor_hidden_dims:
+  - 512
+  - 256
+  - 128
+  critic_hidden_dims:
+  - 512
+  - 256
+  - 128
+  activation: elu
+  rnn_type: lstm_sru
+  rnn_hidden_size: 512
+  rnn_num_layers: 1
+  dropout: 0.2
+  num_cameras: 1
+  image_input_dims: !!python/tuple
+  - 64
+  - 5
+  - 8
+  height_input_dims: !!python/tuple
+  - 64
+  - 7
+  - 7
+  num_points: 656
+  point_dim: 3
+  pointnet_feature_dim: 128
+  pointnet_batch_size: 256
+  range_image_shape: !!python/tuple
+  - 16
+  - 41
+  range_image_feature_dim: 128
+  range_image_batch_size: 256
+  range_image_max_distance: 5.0
+  transformer_num_layers: 2
+  transformer_num_heads: 4
+  transformer_feedforward_dim: 512
+  transformer_dropout: 0.1
+algorithm:
+  class_name: PPO
+  value_loss_coef: 0.02
+  use_clipped_value_loss: true
+  clip_param: 0.2
+  value_clip_param: 0.2
+  entropy_coef: 0.00375
+  num_learning_epochs: 5
+  num_mini_batches: 4
+  learning_rate: 0.001
+  schedule: adaptive
+  gamma: 0.995
+  lam: 0.95
+  desired_kl: 0.01
+  max_grad_norm: 1.0
+  pointnet_freeze_iterations: 200
+  pointnet_partial_iterations: 400
+  pointnet_lr_scale: 0.1
+reward_shifting_value: 0.05
+save_interval: 100
+experiment_name: g1_29dof_unitree_transformer_sru_ppo
+run_name: unitree_resume14999_to25000
+logger: tensorboard
+neptune_project: isaaclab
+wandb_project: isaaclab_nav_g1_transformer_sru
+resume: true
+load_run: .*
+load_checkpoint: model_.*.pt

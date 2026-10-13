@@ -1,0 +1,24 @@
+# Sensor conventions must be checked on this robot before motor control.
+odom_topic: /dog_odom
+# Freshness uses local monotonic receipt time of advancing source stamps.
+# The remote header clock is unsynchronized; retain it without treating its
+# difference from PC wall time as measured data latency.
+odom_frame: odom
+odom_child_frame: robot_center
+# nav_msgs/Odometry twist is expressed in child_frame_id; that frame is assumed
+# aligned with the policy pelvis frame. Pose is expressed in odom_frame.
+lidar_topic: /transformer_sru/lidar
+lidar_frame: transformer_sru_virtual_lidar_yaw
+lowstate_timeout_s: 0.10
+lidar_timeout_s: 0.30
+odom_timeout_s: 0.30
+max_tilt_deg: 40.0
+# Official FixStand pose/gains/3s duration are in startup_contract.json.
+command_watchdog_s: 0.08
+writer_deadline_s: 0.02
+# A supported robot is required when damping-only stop removes stiffness.
+stop_damping_sdk: 3.0
+
+# Restored official/training baseline after the 0.7 hardware trial.
+# All 29 joint residuals: q_target = default_q + low_action_scale * raw_action.
+low_action_scale: 0.25

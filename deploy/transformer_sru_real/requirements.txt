@@ -1,0 +1,4 @@
+# Python 3.10; tested CPU inference versions.
+numpy==2.2.6
+onnxruntime==1.23.2
+PyYAML==6.0.3

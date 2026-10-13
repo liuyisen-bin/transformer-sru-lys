@@ -1,0 +1,55 @@
+{
+  "checkpoint_sha256": "79be96b2877af6cf0542800114ef9244a9d1d6431ceb64ad5d6b4863f0e303ab",
+  "observation_layout": "base_lin_vel[3],base_ang_vel[3],projected_gravity[3],previous_raw_action[3],goal_unit_xyz_log1p_distance[4],lidar_xyz_div5[1968]",
+  "lidar_shape": "16x41x3, vertical-major",
+  "state_contract": "h,c float32[1,1,512]; reset to zero on new episode; carry outputs each step",
+  "action_contract": "raw navigation action[3]; command mapping/filter are outside this graph",
+  "normalization": "No empirical obs normalization. Original encoder internal divide-by-5 preserved.",
+  "intended_use": "Navigation actor; this file does not contain motor control",
+  "iteration": 24999,
+  "onnx_sha256": "539bbe3fd3edddf920514830ae1b8d052c8d0d08f69cc2bdc3d1ec00618991ad",
+  "onnx_bytes": 10157322,
+  "torch_version": "2.14.0+cu130",
+  "onnxruntime_version": "1.23.2",
+  "opset": 17,
+  "inputs": {
+    "obs": [
+      1,
+      1984
+    ],
+    "h_in": [
+      1,
+      1,
+      512
+    ],
+    "c_in": [
+      1,
+      1,
+      512
+    ]
+  },
+  "outputs": {
+    "actions": [
+      1,
+      3
+    ],
+    "h_out": [
+      1,
+      1,
+      512
+    ],
+    "c_out": [
+      1,
+      1,
+      512
+    ]
+  },
+  "consecutive_test_steps": 64,
+  "max_abs_errors_actions_h_c": [
+    1.430511474609375e-06,
+    6.183981895446777e-07,
+    9.5367431640625e-07
+  ],
+  "max_original_actor_vs_wrapper_error": 0.0,
+  "passed": true
+}

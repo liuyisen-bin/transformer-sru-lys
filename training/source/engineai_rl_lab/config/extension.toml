@@ -1,0 +1,19 @@
+[package]
+version = "0.1.0"
+category = "isaaclab"
+title = "G1 Transformer-SRU Navigation"
+author = "Transformer-SRU contributors"
+maintainer = "Transformer-SRU contributors"
+description="Unitree G1 navigation training with a spatial Transformer and SRU policy"
+keywords = ["navigation", "unitree", "isaaclab", "transformer", "sru"]
+
+[dependencies]
+"isaaclab" = {}
+"isaaclab_assets" = {}
+"isaaclab_rl" = {}
+"isaaclab_tasks" = {}
+
+[[python.module]]
+name = "engineai_rl_lab"
+
+[isaac_lab_settings]

@@ -1,0 +1,28 @@
+transformer_sru_lidar_adapter:
+  ros__parameters:
+    input_topic: /livox/lidar
+    imu_topic: /secondary_imu
+    tensor_output_topic: /transformer_sru/lidar
+    observed_tensor_topic: /transformer_sru/lidar_observed
+    # Infer the current horizontal floor height from each cloud. Keep observed
+    # returns unchanged; only fill empty downward training rays within 5 m.
+    flat_floor_completion_enabled: true
+    cloud_output_topic: /transformer_sru/lidar_xyz_norm
+    status_topic: /transformer_sru/lidar_status
+    expected_lidar_frame: livox_frame
+    output_frame: transformer_sru_virtual_lidar_yaw
+    # Example rotation from one fixed-head installation; not a universal calibration.
+    # Moving the head or LiDAR invalidates this transform. Measure your own mount.
+    # Floor fitting constrains tilt only; verify yaw and translation separately.
+    lidar_to_torso_rpy: [-3.134640159861749, 0.0918295012936714, 0.0003645300367713933]
+    # Physical LiDAR origin in torso axes (metres). This initial value assumes
+    # physical origin equals training virtual origin; measure/verify on hardware.
+    lidar_to_torso_xyz: [0.0002835, 0.00003, 0.40618]
+    # False publishes explicitly unverified tensors for read-only inference.
+    # Motor control still requires measured rotation/translation/IMU axes and
+    # true in a separate calibrated config file. Publication is not calibration.
+    extrinsics_verified: false
+    max_cloud_age_s: 0.25
+    max_imu_age_s: 0.10
+    max_imu_cloud_offset_s: 0.05
+    future_tolerance_s: 0.05

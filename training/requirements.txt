@@ -1,0 +1,23 @@
+# Install Isaac Sim 5.1.0 / Isaac Lab v2.3.0 first; see README.md.
+# Direct dependencies constrained for official Isaac Sim 5.1.0 pip packages.
+# This is not a complete freeze of the original binary-based environment.
+# CUDA wheels: install torch/torchvision from the cu128 index before this file.
+torch==2.7.0
+torchvision==0.22.0
+# Isaac Lab's RSL-RL wrapper imports this even with --install none.
+tensordict==0.14.0
+numpy==1.26.0
+# Isaac Sim kernel pins typing_extensions 4.12.2; ONNX 1.22 requires >=4.15.
+typing_extensions==4.12.2
+onnx==1.18.0
+# CPU ONNX export validation; verified with the bundled deployment exporter.
+onnxruntime==1.23.2
+tensorboard==2.21.0
+GitPython==3.1.59
+# Match isaacsim-kernel 5.1.0.
+psutil==5.9.8
+scipy==1.15.3
+trimesh==4.5.1
+matplotlib==3.10.3
+PyYAML==6.0.2
+imageio==2.37.0

@@ -1,0 +1,24 @@
+transformer_sru_lidar_adapter:
+  ros__parameters:
+    input_topic: /livox/lidar
+    imu_topic: /secondary_imu
+    tensor_output_topic: /transformer_sru/lidar
+    cloud_output_topic: /transformer_sru/lidar_xyz_norm
+    status_topic: /transformer_sru/lidar_status
+    expected_lidar_frame: livox_frame
+    output_frame: transformer_sru_virtual_lidar_yaw
+    # Historical physical Livox rotation from the old navigation adapter.
+    # R_torso_lidar = Rz(yaw) Ry(pitch) Rx(roll); radians, wxyz IMU on torso.
+    # NOT a new hardware calibration. Do not replace it with virtual mount pitch.
+    lidar_to_torso_rpy: [3.141592653589793, 0.0927991563, 0.0]
+    # Physical LiDAR origin in torso axes (metres). This initial value assumes
+    # physical origin equals training virtual origin; measure/verify on hardware.
+    lidar_to_torso_xyz: [0.0002835, 0.00003, 0.40618]
+    # False publishes explicitly unverified tensors for read-only inference.
+    # Motor control still requires measured rotation/translation/IMU axes and
+    # true in a separate calibrated config file. Publication is not calibration.
+    extrinsics_verified: false
+    max_cloud_age_s: 0.25
+    max_imu_age_s: 0.10
+    max_imu_cloud_offset_s: 0.05
+    future_tolerance_s: 0.05

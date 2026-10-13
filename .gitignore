@@ -1,0 +1,32 @@
+# Generated training and evaluation output
+/logs/
+/experiments/
+/outputs/
+/videos/
+/wandb/
+*.db3
+*.mcap
+
+# Local dependencies and environments
+/third_party/
+/.venv*/
+/ros/build*/
+/ros/install*/
+/ros/log/
+
+# Build/cache/editor files
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.idea/
+.vscode/
+.DS_Store
+*.wps
+
+# Local validation notes are not part of the public source distribution
+/.release/
+/deploy/.validation/
