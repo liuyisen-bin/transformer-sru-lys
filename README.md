@@ -45,7 +45,7 @@ Unitree G1 29DOF 的分层导航强化学习：`LiDAR CNN → 空间 Transformer
 
 ```bash
 # 小规模检查启动、采样和 PPO 更新
-python training/scripts/nav/train.py --num_envs 2 --max_iterations 2 --smoke_test --headless
+python -u training/scripts/nav/train.py --num_envs 2 --max_iterations 2 --smoke_test --headless
 
 # 正式训练：按显存调整 num_envs
 python training/scripts/nav/train.py --num_envs 2048 --max_iterations 25000 --headless

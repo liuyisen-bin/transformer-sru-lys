@@ -77,7 +77,7 @@ bash deploy/sim2sim/run.sh --headless --start-delay 0 --hold 0
 2026-10-13 验证：复用训练环境与全新纯 CPU 环境均约 **21.91 秒到达**，结束距离
 **0.227 米**，未触发碰撞或跌倒。纯 CPU 环境使用 Python 3.11.16、PyTorch 2.7.0+cpu、
 NumPy 1.26.0、ONNX 1.18.0、MuJoCo 3.13.0，未安装 Isaac Lab/CUDA，`pip check` 通过。
-训练环境使用 PyTorch 2.7.0+cu128 做 CPU 推理。此次未重新运行 Isaac Lab 训练。
+训练环境使用 PyTorch 2.7.0+cu128 做 CPU 推理。Isaac PPO 冒烟的验证范围见[训练文档](../../training/README.md)。
 
 更换同网络结构、同观测与动作配置的 PT 权重：
 

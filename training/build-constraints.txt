@@ -1,0 +1,6 @@
+# Only for pip isolated builds; do not install this into the runtime environment.
+# flatdict 4.0.1 setup.py imports pkg_resources (removed in setuptools 82).
+setuptools==81.0.0
+wheel==0.47.0
+# Build tooling can use modern packaging; Isaac Sim runtime requires 23.0.
+packaging==25.0
