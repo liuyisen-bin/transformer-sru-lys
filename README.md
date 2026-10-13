@@ -3,6 +3,26 @@
 Unitree G1 29DOF 的分层导航强化学习：`LiDAR CNN → 空间 Transformer → SRU → [vx, vy, wz]`。
 高层以5 Hz运行，冻结的 Unitree 低层以50 Hz执行速度指令。训练基于 Isaac Lab，支持 MuJoCo 验证和 ROS 2 部署。
 
+## 真机部署展示
+
+<table>
+  <tr>
+    <th width="50%">真机避障视频</th>
+    <th width="50%">六组真机实验轨迹</th>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/media/real-robot-demo.mp4"><img src="docs/media/real-robot-demo.gif" width="100%" alt="Unitree G1 真机避障视频动图预览"></a></td>
+    <td align="center"><a href="docs/media/real-robot-six-trials.png"><img src="docs/media/real-robot-six-trials.png" width="100%" alt="六轮真机实验的里程计轨迹、目标范围和结束记录"></a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/media/real-robot-demo.mp4">观看完整视频（含声音）</a></td>
+    <td align="center"><a href="docs/media/real-robot-six-trials.png">查看原尺寸轨迹图</a></td>
+  </tr>
+</table>
+
+左侧为原速静音动图预览，点击可查看完整视频。右图为里程计记录：5 轮 Select 退出、
+1 轮 60 秒超时；圆圈表示目标 0.5 m 范围，位置仅在高层推理时记录。
+
 发布模型实际为 **`checkpoints/model_24999.pt`**（约25000轮训练），附带对应 ONNX、训练配置和导出元数据。
 这里没有另一份名为 `25000.pt` 的模型；原权重未改动。网络输入为1984维，其中 LiDAR 为 `16×41×3`。
 
