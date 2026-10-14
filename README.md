@@ -3,6 +3,11 @@
 Unitree G1 29DOF 的分层导航强化学习：`LiDAR CNN → 空间 Transformer → SRU → [vx, vy, wz]`。
 高层以5 Hz运行，冻结的 Unitree 低层以50 Hz执行速度指令。训练基于 Isaac Lab，支持 MuJoCo 验证和 ROS 2 部署。
 
+## 共同作者
+
+- [liuyisen-bin](https://github.com/liuyisen-bin)
+- [gaolin0621](https://github.com/gaolin0621)
+
 ## 真机部署展示
 
 <table>
